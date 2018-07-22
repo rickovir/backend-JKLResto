@@ -92,14 +92,17 @@ app.post('/api/register/',(req, res)=>{
 });
 
 app.post('/api/auth',(req,res)=>{
-	db.query(`select * from user where username='${Buffer.from(req.body.username, 'base64').toString()}' and password='${req.body.password}'`,
+	db.query(`select * from user where 
+		username='${Buffer.from(req.body.username, 'base64').toString()}' 
+		and password='${req.body.password}'`,
 		(error, results, fields)=>{
 			if(error){
 				// throw error;
 				res.send({
 					"code":400,
 					"failed":"error ocurred",
-					"error" : error
+					"error" : error,
+					"enter":"N"
 				});
 			}
 			else
@@ -108,7 +111,8 @@ app.post('/api/auth',(req,res)=>{
 				{
 					res.send({
 						"code":200,
-						"success":"login berhasil",
+						"message":"login berhasil",
+						"enter":"Y",
 						"status": "OK"
 					});
 				}
@@ -116,7 +120,8 @@ app.post('/api/auth',(req,res)=>{
 				{
 					res.send({
 						"code":200,
-						"success":"login gagal",
+						"message":"login gagal",
+						"enter":"N",
 						"status": "OK"
 					});
 				}
